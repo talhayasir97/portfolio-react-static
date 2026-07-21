@@ -1,0 +1,27 @@
+import { createContext, useContext, useState } from 'react'
+
+const AuthContext = createContext()
+
+export function AuthProvider({ children }) {
+  const [token, setToken] = useState(() => localStorage.getItem('adminToken'))
+
+  const loginAdmin = (newToken) => {
+    localStorage.setItem('adminToken', newToken)
+    setToken(newToken)
+  }
+
+  const logoutAdmin = () => {
+    localStorage.removeItem('adminToken')
+    setToken(null)
+  }
+
+  return (
+    <AuthContext.Provider value={{ token, loginAdmin, logoutAdmin, isAuthenticated: !!token }}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
+
+export function useAuth() {
+  return useContext(AuthContext)
+}
