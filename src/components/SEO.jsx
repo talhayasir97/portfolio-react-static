@@ -4,7 +4,7 @@ import { profile } from '../data/profile'
 function SEO() {
   const title = `${profile.name} — ${profile.tagline.split(',')[0]}`
   const description = profile.bio
-  const siteUrl = 'https://yourdomain.com' // apna asal domain daal dein deploy karne ke baad
+  const siteUrl = 'https://talha-yasir.vercel.app'
   const imageUrl = `${siteUrl}${profile.profileImageUrl}`
 
   return (

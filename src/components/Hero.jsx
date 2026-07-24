@@ -118,40 +118,44 @@ function Hero() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="relative flex justify-center"
+          className="relative flex justify-center mt-10 md:mt-0"
         >
-          <div className="absolute inset-0 scale-150">
+          {/* 3D scene - hidden on mobile to avoid clutter/overflow */}
+          <div className="absolute inset-0 scale-150 hidden md:block">
             <HeroScene />
           </div>
 
-          <div className="relative w-72 h-72 md:w-80 md:h-80 rounded-3xl overflow-hidden bg-gradient-to-br from-blue-600/30 via-purple-600/20 to-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl">
+          <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 rounded-3xl overflow-hidden bg-gradient-to-br from-blue-600/30 via-purple-600/20 to-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl">
             {profile.profileImageUrl && (
               <img src={profile.profileImageUrl} alt={profile.name} className="w-full h-full object-cover" />
             )}
           </div>
 
+          {/* Floating badge - top left */}
           <motion.div
             animate={{ y: [0, -8, 0] }}
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute -top-4 -left-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg px-4 py-3 border border-gray-100 dark:border-gray-700"
+            className="absolute -top-3 left-0 sm:-top-4 sm:-left-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg px-3 py-2 sm:px-4 sm:py-3 border border-gray-100 dark:border-gray-700"
           >
-            <Counter value={profile.yearsExperience} suffix="+" className="text-2xl font-bold text-blue-500" />
-            <p className="text-xs text-gray-500 dark:text-gray-400">Years Experience</p>
+            <Counter value={profile.yearsExperience} suffix="+" className="text-lg sm:text-2xl font-bold text-blue-500" />
+            <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Years Experience</p>
           </motion.div>
 
+          {/* Floating badge - bottom right */}
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute -bottom-4 -right-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg px-4 py-3 border border-gray-100 dark:border-gray-700"
+            className="absolute -bottom-3 right-0 sm:-bottom-4 sm:-right-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg px-3 py-2 sm:px-4 sm:py-3 border border-gray-100 dark:border-gray-700"
           >
-            <Counter value={profile.projectsCount} suffix="+" className="text-2xl font-bold text-blue-500" />
-            <p className="text-xs text-gray-500 dark:text-gray-400">Projects Delivered</p>
+            <Counter value={profile.projectsCount} suffix="+" className="text-lg sm:text-2xl font-bold text-blue-500" />
+            <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Projects Delivered</p>
           </motion.div>
 
+          {/* "Full Stack" circle badge - hidden on mobile, only shown from sm breakpoint */}
           <motion.div
             animate={{ x: [0, -6, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute top-1/2 -left-10 -translate-y-1/2 bg-blue-600 text-white rounded-full w-16 h-16 flex items-center justify-center text-xs font-semibold text-center shadow-lg"
+            className="hidden sm:flex absolute top-1/2 -left-10 -translate-y-1/2 bg-blue-600 text-white rounded-full w-16 h-16 items-center justify-center text-xs font-semibold text-center shadow-lg"
           >
             Full Stack
           </motion.div>
