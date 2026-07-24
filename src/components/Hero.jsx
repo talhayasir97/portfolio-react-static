@@ -104,13 +104,12 @@ function Hero() {
               View Projects
             </motion.a>
             <motion.a
-              href={profile.resumeUrl}
-              download
+              href="#contact"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="border border-gray-400 dark:border-gray-500 text-gray-900 dark:text-white px-6 py-3 rounded-full font-medium transition text-center"
             >
-              Download Resume
+              Hire Me
             </motion.a>
           </motion.div>
         </div>
