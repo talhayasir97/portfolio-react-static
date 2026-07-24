@@ -1,48 +1,35 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaRegCalendarAlt,
-  FaGithub, FaLinkedin, FaFileAlt, FaCommentDots, FaPaperPlane,
+  FaGithub, FaLinkedin, FaFileAlt, FaCommentDots, FaPaperPlane, FaFileDownload,
 } from 'react-icons/fa'
-import { sendContactMessage, getProfile } from '../api/services'
+import { profile } from '../data/profile'
 import { generatePortfolioPdf } from '../utils/generatePdf'
-import { getSkills, getExperience, getEducation, getProjects } from '../api/services'
-import { FaFileDownload } from 'react-icons/fa'
+import CopyButton from './CopyButton'
 
 function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' })
   const [status, setStatus] = useState('')
   const [sending, setSending] = useState(false)
-  const [profile, setProfile] = useState(null)
 
-  useEffect(() => {
-    getProfile().then((res) => setProfile(res.data)).catch(() => { })
-  }, [])
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
-
-  const handleExportPdf = async () => {
-    const [skillsRes, expRes, eduRes, projRes] = await Promise.all([
-      getSkills(), getExperience(), getEducation(), getProjects(),
-    ])
-    generatePortfolioPdf({
-      profile,
-      skills: skillsRes.data,
-      experience: expRes.data,
-      education: eduRes.data,
-      projects: projRes.data,
-    })
-  }
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setSending(true)
     try {
-      await sendContactMessage(formData)
-      setStatus('sent')
-      setFormData({ name: '', email: '', phone: '', subject: '', message: '' })
+      const res = await fetch(profile.formspreeUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(formData),
+      })
+      if (res.ok) {
+        setStatus('sent')
+        setFormData({ name: '', email: '', phone: '', subject: '', message: '' })
+      } else {
+        setStatus('error')
+      }
     } catch (err) {
       setStatus('error')
     } finally {
@@ -52,16 +39,16 @@ function Contact() {
   }
 
   const contactInfo = [
-    { icon: FaEnvelope, label: 'Email', value: profile?.email || 'hello@talhayasir.dev', href: `mailto:${profile?.email || 'hello@talhayasir.dev'}` },
-    { icon: FaPhoneAlt, label: 'Phone', value: profile?.phone || '+92 300 1234567', href: `tel:${profile?.phone || ''}` },
-    { icon: FaMapMarkerAlt, label: 'Location', value: profile?.location || 'Lahore, Pakistan', href: '' },
+    { icon: FaEnvelope, label: 'Email', value: profile.email, href: `mailto:${profile.email}`, copyable: true },
+    { icon: FaPhoneAlt, label: 'Phone', value: profile.phone, href: `tel:${profile.phone}`, copyable: true },
+    { icon: FaMapMarkerAlt, label: 'Location', value: profile.location, href: '', copyable: false },
   ]
 
   const socialLinks = [
-    { icon: FaGithub, href: profile?.githubUrl || '#' },
-    { icon: FaLinkedin, href: profile?.linkedinUrl || '#' },
-    { icon: FaFileAlt, href: profile?.resumeUrl || '/resume.pdf' },
-    { icon: FaCommentDots, href: profile?.whatsappUrl || '#' },
+    { icon: FaGithub, href: profile.githubUrl },
+    { icon: FaLinkedin, href: profile.linkedinUrl },
+    { icon: FaFileAlt, href: profile.resumeUrl },
+    { icon: FaCommentDots, href: profile.whatsappUrl },
   ]
 
   const subjectOptions = ['Project Inquiry', 'Job Opportunity', 'Freelance Work', 'Collaboration', 'General Question']
@@ -128,9 +115,7 @@ function Contact() {
                 className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition appearance-none cursor-pointer"
               >
                 <option value="" disabled>Select a subject</option>
-                {subjectOptions.map((opt) => (
-                  <option key={opt} value={opt}>{opt}</option>
-                ))}
+                {subjectOptions.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
               </select>
             </div>
 
@@ -154,12 +139,8 @@ function Contact() {
               {sending ? 'Sending...' : 'Send Message'}
             </motion.button>
 
-            {status === 'sent' && (
-              <p className="text-green-500 text-center text-sm">Message sent! I'll get back to you soon.</p>
-            )}
-            {status === 'error' && (
-              <p className="text-red-500 text-center text-sm">Something went wrong. Please try again.</p>
-            )}
+            {status === 'sent' && <p className="text-green-500 text-center text-sm">Message sent! I'll get back to you soon.</p>}
+            {status === 'error' && <p className="text-red-500 text-center text-sm">Something went wrong. Please try again.</p>}
           </motion.form>
 
           <motion.div
@@ -174,8 +155,8 @@ function Contact() {
             <div className="space-y-5 mb-8">
               {contactInfo.map((item) => {
                 const Icon = item.icon
-                const content = (
-                  <div className="flex items-center gap-4">
+                const infoBlock = (
+                  <div className="flex items-center gap-4 flex-1">
                     <div className="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-500/10 flex items-center justify-center text-blue-500 flex-shrink-0">
                       <Icon />
                     </div>
@@ -185,22 +166,30 @@ function Contact() {
                     </div>
                   </div>
                 )
-                return item.href ? (
-                  <a key={item.label} href={item.href} className="block hover:opacity-80 transition">{content}</a>
-                ) : (
-                  <div key={item.label}>{content}</div>
+
+                return (
+                  <div key={item.label} className="flex items-center gap-2">
+                    {item.href ? (
+                      <a href={item.href} className="flex-1 hover:opacity-80 transition">
+                        {infoBlock}
+                      </a>
+                    ) : (
+                      infoBlock
+                    )}
+                    {item.copyable && <CopyButton text={item.value} />}
+                  </div>
                 )
               })}
             </div>
 
-            {profile?.calendlyUrl && (
+            {profile.calendlyUrl && (
               <motion.a
                 href={profile.calendlyUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="flex items-center justify-center gap-2 w-full border border-gray-300 dark:border-gray-700 hover:border-blue-500 text-gray-900 dark:text-white py-3 rounded-xl font-medium transition mb-6"
+                className="flex items-center justify-center gap-2 w-full border border-gray-300 dark:border-gray-700 hover:border-blue-500 text-gray-900 dark:text-white py-3 rounded-xl font-medium transition mb-3"
               >
                 <FaRegCalendarAlt />
                 Schedule a Meeting
@@ -208,10 +197,10 @@ function Contact() {
             )}
 
             <motion.button
-              onClick={handleExportPdf}
+              onClick={generatePortfolioPdf}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="flex items-center justify-center gap-2 w-full border border-gray-300 dark:border-gray-700 hover:border-blue-500 text-gray-900 dark:text-white py-3 rounded-xl font-medium transition mb-3"
+              className="flex items-center justify-center gap-2 w-full border border-gray-300 dark:border-gray-700 hover:border-blue-500 text-gray-900 dark:text-white py-3 rounded-xl font-medium transition mb-6"
             >
               <FaFileDownload />
               Export Portfolio Summary (PDF)

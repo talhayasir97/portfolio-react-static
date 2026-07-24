@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { FaGithub, FaCodeBranch, FaStar, FaUsers } from 'react-icons/fa'
-import { getProfile } from '../api/services'
+import { profile } from '../data/profile'
 
 function extractUsername(githubUrl) {
   if (!githubUrl) return null
@@ -14,12 +14,13 @@ function GithubStats() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getProfile().then(async (res) => {
-      const username = extractUsername(res.data.githubUrl)
-      if (!username) {
-        setLoading(false)
-        return
-      }
+    const username = extractUsername(profile.githubUrl)
+    if (!username) {
+      setLoading(false)
+      return
+    }
+
+    async function fetchStats() {
       try {
         const userRes = await fetch(`https://api.github.com/users/${username}`)
         const userData = await userRes.json()
@@ -36,14 +37,15 @@ function GithubStats() {
           repos: userData.public_repos || 0,
           followers: userData.followers || 0,
           stars: totalStars,
-          avatar: userData.avatar_url,
         })
       } catch (err) {
         console.error('Failed to load GitHub stats:', err)
       } finally {
         setLoading(false)
       }
-    })
+    }
+
+    fetchStats()
   }, [])
 
   if (loading || !stats) return null

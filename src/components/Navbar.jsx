@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaBars, FaTimes } from 'react-icons/fa'
 import { useTheme } from '../context/ThemeContext'
-import { getProfile } from '../api/services'
+import { profile } from '../data/profile'
 
 const navLinks = [
   { name: 'Home', href: '#home' },
@@ -17,7 +17,6 @@ function Navbar() {
   const { theme, toggleTheme } = useTheme()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [profile, setProfile] = useState(null)
   const [activeSection, setActiveSection] = useState('home')
   const [showOverlay, setShowOverlay] = useState(false)
   const [overlayPos, setOverlayPos] = useState({ x: 0, y: 0 })
@@ -29,21 +28,13 @@ function Navbar() {
   }, [])
 
   useEffect(() => {
-    getProfile().then((res) => setProfile(res.data)).catch(() => {})
-  }, [])
-
-  useEffect(() => {
     const sectionIds = navLinks.map((link) => link.href.replace('#', ''))
-    const sections = sectionIds
-      .map((id) => document.getElementById(id))
-      .filter(Boolean)
+    const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean)
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id)
-          }
+          if (entry.isIntersecting) setActiveSection(entry.target.id)
         })
       },
       { rootMargin: '-40% 0px -50% 0px', threshold: 0 }
@@ -53,9 +44,7 @@ function Navbar() {
     return () => sections.forEach((section) => observer.unobserve(section))
   }, [])
 
-  const handleLinkClick = () => {
-    setIsOpen(false)
-  }
+  const handleLinkClick = () => setIsOpen(false)
 
   const handleThemeToggle = (e) => {
     const x = (e.clientX / window.innerWidth) * 100
@@ -63,10 +52,7 @@ function Navbar() {
     setOverlayPos({ x, y })
     setShowOverlay(true)
     toggleTheme()
-
-    setTimeout(() => {
-      setShowOverlay(false)
-    }, 700)
+    setTimeout(() => setShowOverlay(false), 700)
   }
 
   return (
@@ -92,14 +78,12 @@ function Navbar() {
 
       <nav
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-          scrolled
-            ? 'bg-white/80 dark:bg-gray-950/80 backdrop-blur-md shadow-sm'
-            : 'bg-transparent'
+          scrolled ? 'bg-white/80 dark:bg-gray-950/80 backdrop-blur-md shadow-sm' : 'bg-transparent'
         }`}
       >
         <div className="max-w-6xl mx-auto flex justify-between items-center p-4">
           <a href="#home" className="text-xl font-bold text-gray-900 dark:text-white">
-            {profile?.name || 'Talha Yasir'}
+            {profile.name}
           </a>
 
           <div className="hidden md:flex items-center gap-8">
@@ -146,10 +130,7 @@ function Navbar() {
             >
               {theme === 'dark' ? '🌙' : '☀️'}
             </button>
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-900 dark:text-white text-xl"
-            >
+            <button onClick={() => setIsOpen(!isOpen)} className="text-gray-900 dark:text-white text-xl">
               {isOpen ? <FaTimes /> : <FaBars />}
             </button>
           </div>

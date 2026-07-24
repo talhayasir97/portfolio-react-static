@@ -1,6 +1,11 @@
 import jsPDF from 'jspdf'
+import { profile } from '../data/profile'
+import { skillCategories } from '../data/skills'
+import { experience } from '../data/experience'
+import { education } from '../data/education'
+import { projects } from '../data/projects'
 
-export function generatePortfolioPdf({ profile, skills, experience, education, projects }) {
+export function generatePortfolioPdf() {
   const doc = new jsPDF()
   const pageWidth = doc.internal.pageSize.getWidth()
   const margin = 15
@@ -28,21 +33,21 @@ export function generatePortfolioPdf({ profile, skills, experience, education, p
   doc.setTextColor(255, 255, 255)
   doc.setFontSize(20)
   doc.setFont('helvetica', 'bold')
-  doc.text(profile?.name || 'Portfolio', margin, 18)
+  doc.text(profile.name, margin, 18)
   doc.setFontSize(11)
   doc.setFont('helvetica', 'normal')
-  doc.text(profile?.tagline?.split(',')[0] || '', margin, 27)
+  doc.text(profile.tagline.split(',')[0] || '', margin, 27)
 
   y = 45
   doc.setTextColor(50, 50, 50)
 
-  if (profile?.email || profile?.phone || profile?.location) {
-    const contact = [profile?.email, profile?.phone, profile?.location].filter(Boolean).join('  |  ')
+  const contact = [profile.email, profile.phone, profile.location].filter(Boolean).join('  |  ')
+  if (contact) {
     addLine(contact, 9, 'normal', [100, 100, 100])
     y += 3
   }
 
-  if (profile?.bio) {
+  if (profile.bio) {
     addLine('About', 13, 'bold', [37, 99, 235])
     addLine(profile.bio, 10)
     y += 3
@@ -73,10 +78,10 @@ export function generatePortfolioPdf({ profile, skills, experience, education, p
   }
 
   checkPageBreak()
-  if (skills?.length) {
+  const allSkills = skillCategories.flatMap((cat) => cat.skills)
+  if (allSkills?.length) {
     addLine('Skills', 13, 'bold', [37, 99, 235])
-    const skillNames = skills.map((s) => s.name).join(', ')
-    addLine(skillNames, 10)
+    addLine(allSkills.map((s) => s.name).join(', '), 10)
     y += 3
   }
 
@@ -91,5 +96,5 @@ export function generatePortfolioPdf({ profile, skills, experience, education, p
     })
   }
 
-  doc.save(`${profile?.name || 'Portfolio'}-Summary.pdf`)
+  doc.save(`${profile.name}-Summary.pdf`)
 }

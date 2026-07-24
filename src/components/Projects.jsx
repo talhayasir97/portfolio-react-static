@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { FaGithub, FaExternalLinkAlt, FaArrowRight } from 'react-icons/fa'
-import { getProjects } from '../api/services'
+import { FaGithub, FaArrowRight } from 'react-icons/fa'
+import { projects, categories } from '../data/projects'
+import ProjectModal from './ProjectModal'
 
-function ProjectRow({ project, index }) {
+function ProjectRow({ project, index, onOpenModal }) {
   const isReversed = index % 2 !== 0
-  const techList = project.techStack ? project.techStack.split(',').map((t) => t.trim()) : []
 
   return (
     <motion.div
@@ -25,11 +25,11 @@ function ProjectRow({ project, index }) {
         className="w-full md:w-1/2 group relative"
       >
         <div className="relative rounded-2xl overflow-hidden aspect-video bg-gradient-to-br from-blue-600/30 via-purple-600/20 to-gray-900 border border-gray-200 dark:border-gray-800 shadow-lg">
-          {project.imageUrl && (
+          {project.image && (
             <img
-              src={project.imageUrl}
+              src={project.image}
               alt={project.title}
-              onError={(e) => { e.target.style.display = 'none' }}
+              onError={(e) => (e.target.style.display = 'none')}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
           )}
@@ -58,17 +58,20 @@ function ProjectRow({ project, index }) {
         </p>
 
         <div className="flex flex-wrap gap-2 mb-8">
-          {techList.map((t) => (
-            <span key={t} className="text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-full">
+          {project.tech.map((t) => (
+            <span
+              key={t}
+              className="text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-full"
+            >
               {t}
             </span>
           ))}
         </div>
 
         <div className="flex flex-wrap gap-4">
-          {project.githubUrl ? (
+          {project.github && (
             <motion.a
-              href={project.githubUrl}
+              href={project.github}
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ x: 4 }}
@@ -76,10 +79,10 @@ function ProjectRow({ project, index }) {
             >
               <FaGithub /> Source Code
             </motion.a>
-          ) : null}
-          {project.demoUrl ? (
+          )}
+          {project.demo && (
             <motion.a
-              href={project.demoUrl}
+              href={project.demo}
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ x: 4 }}
@@ -87,7 +90,14 @@ function ProjectRow({ project, index }) {
             >
               Live Demo <FaArrowRight />
             </motion.a>
-          ) : null}
+          )}
+          <motion.button
+            onClick={() => onOpenModal(project)}
+            whileHover={{ x: 4 }}
+            className="flex items-center gap-2 text-sm font-medium text-blue-500 hover:text-blue-600 px-5 py-2.5 rounded-full transition-colors"
+          >
+            View Case Study
+          </motion.button>
         </div>
       </motion.div>
     </motion.div>
@@ -95,24 +105,11 @@ function ProjectRow({ project, index }) {
 }
 
 function Projects() {
-  const [projects, setProjects] = useState([])
-  const [loading, setLoading] = useState(true)
   const [activeCategory, setActiveCategory] = useState('All')
+  const [selectedProject, setSelectedProject] = useState(null)
 
-  useEffect(() => {
-    getProjects()
-      .then((res) => setProjects(res.data))
-      .catch((err) => console.error('Failed to load projects:', err))
-      .finally(() => setLoading(false))
-  }, [])
-
-  const categories = ['All', ...new Set(projects.map((p) => p.category))]
   const filteredProjects =
     activeCategory === 'All' ? projects : projects.filter((p) => p.category === activeCategory)
-
-  if (loading) {
-    return <section id="projects" className="py-24 text-center text-gray-400">Loading projects...</section>
-  }
 
   return (
     <section id="projects" className="py-24 px-4 bg-white dark:bg-gray-900 transition-colors duration-500">
@@ -148,10 +145,17 @@ function Projects() {
 
         <div>
           {filteredProjects.map((project, index) => (
-            <ProjectRow key={project.id} project={project} index={index} />
+            <ProjectRow
+              key={project.id}
+              project={project}
+              index={index}
+              onOpenModal={setSelectedProject}
+            />
           ))}
         </div>
       </div>
+
+      <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
     </section>
   )
 }
