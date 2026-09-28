@@ -11,7 +11,7 @@ export const testimonials = [
     id: 2,
     name: 'Sara Khan',
     role: 'Product Manager',
-    quote: 'The .NET backend he built handled our real-time chat feature flawlessly. Great communication throughout.',
+    quote: 'The backend he built handled our real-time chat feature flawlessly. Great communication throughout.',
     avatar: 'SK',
     rating: 5,
   },

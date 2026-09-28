@@ -11,6 +11,7 @@ export const projects = [
     problem: 'Online apparel shoppers frequently hesitate to purchase due to uncertainty about fit and style, leading to high return rates and lost sales.',
     solution: 'Built an AI-powered virtual try-on system that lets customers visualize how clothing items would look on them before buying, directly addressing the fit and style concerns.',
     challenges: 'Integrating AI-based visual try-on technology into a seamless e-commerce shopping flow while keeping the experience fast and reliable.',
+    result: 'A more confident shopping experience designed to reduce hesitation and improve e-commerce conversions.',
     gallery: ['/projects/virtual-tryon.jpg'],
   },
   {
@@ -25,6 +26,7 @@ export const projects = [
     problem: 'Residential communities often manage billing, resident records, and maintenance requests manually, leading to inefficiency and poor communication.',
     solution: 'Built a centralized Laravel-based platform with an admin panel to handle monthly billing, resident records, maintenance requests, and community announcements in one place.',
     challenges: 'Designing a flexible billing system and role-based admin panel that could scale across multiple residential societies.',
+    result: 'One centralized workflow for billing, records, maintenance, and resident communication.',
     gallery: ['/projects/society-management.jpg'],
   },
   {
@@ -39,6 +41,7 @@ export const projects = [
     problem: 'Dispatchers needed a reliable way to track fleet availability, assign drivers, and log trips without relying on scattered manual processes.',
     solution: 'Developed a Laravel + MySQL backend portal with driver assignment, trip logging, and a dispatcher dashboard, exposing REST endpoints consumed by a mobile app.',
     challenges: 'Keeping trip and driver-assignment data consistent in real time between the dispatcher dashboard and the mobile app via REST APIs.',
+    result: 'A clearer dispatch workflow with reliable data shared between the dashboard and mobile application.',
     gallery: ['/projects/taxi-management.jpg'],
   },
   {
@@ -53,6 +56,7 @@ export const projects = [
     problem: 'The client needed a structured way to manage user submissions that required multiple stages of review and approval with proper access control.',
     solution: 'Built a Livewire-powered application with authentication, role-based access control, and a multi-stage review and approval workflow.',
     challenges: 'Designing a clean, reactive review/approval flow using Livewire while keeping role-based permissions consistent throughout the app.',
+    result: 'A structured approval process with better visibility, access control, and faster review cycles.',
     gallery: ['/projects/alcert.jpg'],
   },
   {
@@ -67,6 +71,7 @@ export const projects = [
     problem: 'The store needed an intuitive frontend where customers could easily browse, filter, and purchase products without friction.',
     solution: 'Built a storefront with dynamic filtering by category, price, and availability, along with a smooth cart and checkout flow, using Blade, Tailwind CSS, and jQuery on a Laravel backend.',
     challenges: 'Implementing dynamic, fast client-side filtering with jQuery while keeping the checkout flow smooth and bug-free.',
+    result: 'A smoother product discovery and checkout experience for online shoppers.',
     gallery: ['/projects/ecommerce-store.jpg'],
   },
 ]

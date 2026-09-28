@@ -13,6 +13,9 @@ import Footer from './components/Footer'
 import ScrollProgressBar from './components/ScrollProgressBar'
 import SEO from './components/SEO'
 import GithubStats from './components/GithubStats'
+import HowItWorks from './components/HowItWorks'
+import FAQ from './components/FAQ'
+import WhatsAppButton from './components/WhatsAppButton'
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -39,11 +42,14 @@ function App() {
             <Skills />
             <Services />
             <Projects />
+            <HowItWorks />
             <About />
             <Testimonials />
+            <FAQ />
             <Contact />
             <GithubStats />
             <Footer />
+            <WhatsAppButton />
           </motion.div>
         )}
       </AnimatePresence>

@@ -7,9 +7,10 @@ import {
 import { profile } from '../data/profile'
 import { generatePortfolioPdf } from '../utils/generatePdf'
 import CopyButton from './CopyButton'
+import { contactSubjects } from '../data/siteContent'
 
 function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' })
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', budget: '', deadline: '', message: '' })
   const [status, setStatus] = useState('')
   const [sending, setSending] = useState(false)
 
@@ -26,7 +27,7 @@ function Contact() {
       })
       if (res.ok) {
         setStatus('sent')
-        setFormData({ name: '', email: '', phone: '', subject: '', message: '' })
+        setFormData({ name: '', email: '', phone: '', subject: '', budget: '', deadline: '', message: '' })
       } else {
         setStatus('error')
       }
@@ -51,8 +52,6 @@ function Contact() {
     { icon: FaCommentDots, href: profile.whatsappUrl },
   ]
 
-  const subjectOptions = ['Project Inquiry', 'Job Opportunity', 'Freelance Work', 'Collaboration', 'General Question']
-
   return (
     <section id="contact" className="py-24 px-4 bg-white dark:bg-gray-900 transition-colors duration-500">
       <div className="max-w-5xl mx-auto">
@@ -63,10 +62,10 @@ function Contact() {
           transition={{ duration: 0.6 }}
           className="text-4xl md:text-5xl font-bold text-center text-gray-900 dark:text-white mb-4"
         >
-          Let's Talk
+          Let’s Build Something Valuable
         </motion.h2>
         <p className="text-center text-gray-500 dark:text-gray-400 mb-14">
-          Have a project in mind? Let's build something great together.
+          Tell me what you’re trying to achieve. I’ll help you turn the idea into a clear, practical plan.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -99,6 +98,30 @@ function Contact() {
               </div>
             </div>
 
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2">Estimated Budget</label>
+                <select name="budget" value={formData.budget} onChange={handleChange} required className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition appearance-none cursor-pointer">
+                  <option value="" disabled>Select a range</option>
+                  <option value="Under $500">Under $500</option>
+                  <option value="$500 – $1,500">$500 – $1,500</option>
+                  <option value="$1,500 – $3,000">$1,500 – $3,000</option>
+                  <option value="$3,000+">$3,000+</option>
+                  <option value="Not sure yet">Not sure yet</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2">Target Timeline</label>
+                <select name="deadline" value={formData.deadline} onChange={handleChange} required className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition appearance-none cursor-pointer">
+                  <option value="" disabled>When do you need it?</option>
+                  <option value="As soon as possible">As soon as possible</option>
+                  <option value="Within 1 month">Within 1 month</option>
+                  <option value="1–3 months">1–3 months</option>
+                  <option value="Flexible">Flexible</option>
+                </select>
+              </div>
+            </div>
+
             <div>
               <label className="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2">Email</label>
               <input
@@ -115,7 +138,7 @@ function Contact() {
                 className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 transition appearance-none cursor-pointer"
               >
                 <option value="" disabled>Select a subject</option>
-                {subjectOptions.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
+                {contactSubjects.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
               </select>
             </div>
 
@@ -203,7 +226,7 @@ function Contact() {
               className="flex items-center justify-center gap-2 w-full border border-gray-300 dark:border-gray-700 hover:border-blue-500 text-gray-900 dark:text-white py-3 rounded-xl font-medium transition mb-6"
             >
               <FaFileDownload />
-              Export Portfolio Summary (PDF)
+              Download Portfolio Summary
             </motion.button>
 
             <div className="flex gap-3 mt-auto">

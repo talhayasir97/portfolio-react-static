@@ -8,7 +8,7 @@ function About() {
     <section id="about" className="py-24 px-4 bg-gray-50 dark:bg-gray-950 transition-colors duration-500">
       <div className="max-w-6xl mx-auto">
         <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-4xl md:text-5xl font-bold text-center text-gray-900 dark:text-white mb-4">
-          About Me
+          About the Engineer
         </motion.h2>
         <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }} className="text-center text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-16">
           {profile.bio}

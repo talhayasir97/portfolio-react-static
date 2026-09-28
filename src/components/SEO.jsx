@@ -11,7 +11,7 @@ function SEO() {
     <Helmet>
       <title>{title}</title>
       <meta name="description" content={description} />
-      <meta name="keywords" content="Full Stack Developer, Laravel, React, ASP.NET Core, Web Developer, Pakistan" />
+      <meta name="keywords" content="Software Engineer, Web App Development, Laravel Developer, MERN Stack Developer, AI Automation, E-commerce Development, Pakistan" />
       <meta name="author" content={profile.name} />
 
       {/* Open Graph (Facebook, LinkedIn, WhatsApp preview) */}

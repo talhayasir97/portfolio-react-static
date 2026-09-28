@@ -121,10 +121,10 @@ function Projects() {
           transition={{ duration: 0.6 }}
           className="text-4xl md:text-5xl font-bold text-center text-gray-900 dark:text-white mb-4"
         >
-          Featured Projects
+          Selected Work
         </motion.h2>
         <p className="text-center text-gray-500 dark:text-gray-400 mb-10">
-          A selection of things I've built
+          Real-world products built with thoughtful design, clean engineering, and business goals in mind.
         </p>
 
         <div className="flex flex-wrap justify-center gap-3 mb-6">

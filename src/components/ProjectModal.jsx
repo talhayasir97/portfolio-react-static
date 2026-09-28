@@ -68,6 +68,13 @@ function ProjectModal({ project, onClose }) {
               </div>
             )}
 
+            {project.result && (
+              <div className="mb-6 p-4 rounded-xl bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20">
+                <h3 className="text-sm font-bold text-blue-600 dark:text-blue-400 mb-1.5">The Outcome</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{project.result}</p>
+              </div>
+            )}
+
             <div className="flex flex-wrap gap-3">
               {project.github && (
                 <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 hover:border-blue-500 px-5 py-2.5 rounded-full transition-colors">

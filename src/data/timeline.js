@@ -1,7 +1,7 @@
 export const timeline = [
   {
     year: '2023',
-    title: 'Started Full Stack Journey',
+    title: 'Started Software Engineering Journey',
     description: 'Began learning PHP, Laravel, and core web development fundamentals.',
   },
   {
@@ -11,8 +11,8 @@ export const timeline = [
   },
   {
     year: '2025',
-    title: 'ASP.NET Core & Enterprise Development',
-    description: 'Expanded into .NET 8, SignalR real-time systems, and JWT-based authentication.',
+    title: 'AI & Modern Web Development',
+    description: 'Expanded into AI-powered workflows, automation, and scalable modern web applications.',
   },
   {
     year: '2026',

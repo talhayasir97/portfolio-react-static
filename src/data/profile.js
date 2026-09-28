@@ -1,8 +1,8 @@
 export const profile = {
   name: 'Talha Yasir',
-  label: 'Full Stack DEVELOPER',
-  tagline: 'Full Stack Developer,Laravel Expert,MERN Stack Engineer,ASP.NET Core Developer,Backend Architect',
-  bio: "I don't just build software — I craft scalable digital ecosystems. From Laravel SaaS products to enterprise .NET systems, I turn ideas into applications people actually use.",
+  label: 'SOFTWARE ENGINEER',
+  tagline: 'Software Engineer,Web App Developer,Laravel Specialist,MERN Stack Developer,AI Automation Specialist',
+  bio: 'I design and build reliable digital products that help businesses work smarter, sell better, and grow faster — from high-converting websites and e-commerce platforms to custom web apps and AI-powered automation.',
   profileImageUrl: '/profile.jpg',
   resumeUrl: '/resume.pdf',
   yearsExperience: 3,

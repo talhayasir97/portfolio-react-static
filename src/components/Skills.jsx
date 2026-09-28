@@ -10,7 +10,7 @@ const iconMap = { ...FaIcons, ...SiIcons }
 const allSkills = skillCategories.flatMap((cat) => cat.skills)
 
 function SkillCard({ skill, index }) {
-  const Icon = iconMap[skill.iconKey] || FaIcons.FaCode
+  const Icon = skill.icon || iconMap[skill.iconKey] || FaIcons.FaCode
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.5 })
   const [animatedLevel, setAnimatedLevel] = useState(0)

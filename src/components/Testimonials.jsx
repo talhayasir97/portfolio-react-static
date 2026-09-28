@@ -31,9 +31,9 @@ function Testimonials() {
     <section className="py-24 bg-gray-50 dark:bg-gray-950 transition-colors duration-500 overflow-hidden">
       <div className="max-w-6xl mx-auto px-4">
         <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-4xl font-bold text-center text-gray-900 dark:text-white mb-4">
-          What People Say
+          Trusted by Clients & Collaborators
         </motion.h2>
-        <p className="text-center text-gray-500 dark:text-gray-400 mb-16">Feedback from clients and collaborators</p>
+        <p className="text-center text-gray-500 dark:text-gray-400 mb-16">Clear communication, dependable delivery, and solutions built to last.</p>
       </div>
 
       <div className="relative mb-6 mask-fade">

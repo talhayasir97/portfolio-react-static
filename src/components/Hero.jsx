@@ -101,7 +101,7 @@ function Hero() {
               whileTap={{ scale: 0.95 }}
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium transition inline-block text-center"
             >
-              View Projects
+              Explore My Work
             </motion.a>
             <motion.a
               href="#contact"
@@ -109,7 +109,7 @@ function Hero() {
               whileTap={{ scale: 0.95 }}
               className="border border-gray-400 dark:border-gray-500 text-gray-900 dark:text-white px-6 py-3 rounded-full font-medium transition text-center"
             >
-              Hire Me
+              Start a Conversation
             </motion.a>
           </motion.div>
         </div>
@@ -151,13 +151,15 @@ function Hero() {
             <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Projects Delivered</p>
           </motion.div>
 
-          {/* "Full Stack" circle badge - hidden on mobile, only shown from sm breakpoint */}
+          {/* Software Engineer badge - hidden on mobile */}
           <motion.div
             animate={{ x: [0, -6, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
             className="hidden sm:flex absolute top-1/2 -left-10 -translate-y-1/2 bg-blue-600 text-white rounded-full w-16 h-16 items-center justify-center text-xs font-semibold text-center shadow-lg"
           >
-            Full Stack
+            Software
+            <br />
+            Engineer
           </motion.div>
         </motion.div>
       </div>
