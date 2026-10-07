@@ -3,7 +3,7 @@ import { services } from '../data/services'
 
 function Services() {
   return (
-    <section id="services" className="py-24 px-4 bg-gray-50 dark:bg-gray-950 transition-colors duration-500">
+    <section id="services" className="py-6 px-4 bg-gray-50 dark:bg-gray-950 transition-colors duration-500">
       <div className="max-w-6xl mx-auto">
         <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="text-center text-xs font-semibold tracking-[0.3em] text-blue-500 mb-3">
           SERVICES

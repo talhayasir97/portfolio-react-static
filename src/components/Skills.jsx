@@ -1,33 +1,18 @@
-import { useState, useRef, useEffect } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
 import Tilt from 'react-parallax-tilt'
-import { skillCategories } from '../data/skills'
+import { skillCategories, allSkillIcons } from '../data/skills'
 import * as FaIcons from 'react-icons/fa'
 import * as SiIcons from 'react-icons/si'
 import SectionHeading from './SectionHeading'
 
 const iconMap = { ...FaIcons, ...SiIcons }
-const allSkills = skillCategories.flatMap((cat) => cat.skills)
 
 function SkillCard({ skill, index }) {
   const Icon = skill.icon || iconMap[skill.iconKey] || FaIcons.FaCode
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, amount: 0.5 })
-  const [animatedLevel, setAnimatedLevel] = useState(0)
-
-  const radius = 26
-  const circumference = 2 * Math.PI * radius
-  const offset = circumference - (animatedLevel / 100) * circumference
-
-  useEffect(() => {
-    if (!isInView) return
-    const timeout = setTimeout(() => setAnimatedLevel(skill.level), index * 50)
-    return () => clearTimeout(timeout)
-  }, [isInView, skill.level, index])
 
   return (
     <motion.div
-      ref={ref}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -35,6 +20,7 @@ function SkillCard({ skill, index }) {
     >
       <Tilt glareEnable glareMaxOpacity={0.2} glareColor="#3b82f6" scale={1.04} transitionSpeed={1200} tiltMaxAngleX={12} tiltMaxAngleY={12} className="rounded-2xl">
         <div className="relative rounded-2xl p-[2px] overflow-hidden group">
+          {/* Rotating gradient border using the skill brand color */}
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
@@ -45,16 +31,22 @@ function SkillCard({ skill, index }) {
           <div className="relative z-10 flex flex-col items-center justify-center gap-3 p-6 rounded-2xl bg-white dark:bg-gray-900 overflow-hidden">
             <div className="absolute -top-10 -right-10 w-24 h-24 rounded-full blur-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-500" style={{ backgroundColor: skill.color }}></div>
 
+            {/* Small badge for the main stack */}
+            {skill.core && (
+              <span className="absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-300">
+                Core
+              </span>
+            )}
+
+            {/* Static ring instead of the old percentage progress ring */}
             <div className="relative w-16 h-16 flex items-center justify-center">
-              <svg className="absolute w-full h-full -rotate-90" viewBox="0 0 64 64">
-                <circle cx="32" cy="32" r={radius} fill="none" stroke="currentColor" className="text-gray-100 dark:text-gray-800" strokeWidth="3" />
-                <circle cx="32" cy="32" r={radius} fill="none" stroke={skill.color} strokeWidth="3" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={offset} style={{ transition: 'stroke-dashoffset 1.2s ease-out' }} />
+              <svg className="absolute w-full h-full" viewBox="0 0 64 64">
+                <circle cx="32" cy="32" r="26" fill="none" stroke={skill.color} strokeOpacity="0.35" strokeWidth="3" />
               </svg>
               <Icon className="text-2xl relative z-10 group-hover:scale-110 transition-transform duration-300" style={{ color: skill.color }} />
             </div>
 
             <span className="text-sm font-semibold text-gray-800 dark:text-gray-200 text-center">{skill.name}</span>
-            <span className="text-xs text-gray-400 dark:text-gray-500">{animatedLevel}%</span>
           </div>
         </div>
       </Tilt>
@@ -67,12 +59,12 @@ function Skills() {
   const categories = ['All', ...skillCategories.map((c) => c.title)]
 
   const filteredSkills =
-    activeTab === 'All' ? allSkills : skillCategories.find((c) => c.title === activeTab)?.skills || []
+    activeTab === 'All' ? allSkillIcons : skillCategories.find((c) => c.title === activeTab)?.skills || []
 
   return (
     <section id="skills" className="py-24 px-4 bg-gray-50 dark:bg-gray-950 transition-colors duration-500 overflow-hidden">
       <div className="max-w-6xl mx-auto">
-        <SectionHeading title="Skills &" highlight="Technologies" subtitle="Technologies I work with to build scalable applications" />
+        <SectionHeading title="Skills &" highlight="Technologies" subtitle="Core stack: Laravel, React, and Python, backed by the tools I use to ship and deploy" />
 
         <div className="flex flex-wrap justify-center gap-3 mb-12">
           {categories.map((cat) => (

@@ -13,9 +13,8 @@ function ProjectRow({ project, index, onOpenModal }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.7, ease: 'easeOut' }}
-      className={`flex flex-col ${
-        isReversed ? 'md:flex-row-reverse' : 'md:flex-row'
-      } items-center gap-10 md:gap-16 py-16 border-b border-gray-200 dark:border-gray-800 last:border-none`}
+      className={`flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'
+        } items-center gap-10 md:gap-16 py-16 border-b border-gray-200 dark:border-gray-800 last:border-none`}
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
@@ -48,7 +47,7 @@ function ProjectRow({ project, index, onOpenModal }) {
         className="w-full md:w-1/2"
       >
         <span className="text-blue-500 text-sm font-semibold tracking-wide">
-          0{index + 1} —
+          {String(index + 1).padStart(2, '0')} —
         </span>
         <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mt-2 mb-4">
           {project.title}
@@ -132,11 +131,10 @@ function Projects() {
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                activeCategory === cat
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${activeCategory === cat
                   ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30'
                   : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-              }`}
+                }`}
             >
               {cat}
             </button>
