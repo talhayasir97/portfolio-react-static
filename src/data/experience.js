@@ -39,7 +39,7 @@ export const experience = [
     role: 'Front-End Developer',
     company: 'AUR LAB',
     location: 'Lahore, Pakistan',
-    duration: 'Mar 2023 – May 2023',
+    duration: 'Dec 2022 – May 2023',
     points: [
       'Built responsive UI components using Blade templates, Tailwind CSS, and jQuery, working from Figma designs.',
       'Tested layouts across Chrome, Firefox, Safari, and Edge, and on common mobile screen sizes, fixing rendering issues as they came up.',
